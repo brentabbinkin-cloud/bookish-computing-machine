@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Code - Connect & Create</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fira Code', 'Courier New', monospace;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #00ff88;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated background */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(40px);
+            animation: blob-animation 8s infinite;
+        }
+
+        .blob1 {
+            width: 300px;
+            height: 300px;
+            background: #00ff88;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .blob2 {
+            width: 200px;
+            height: 200px;
+            background: #00d4ff;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .blob3 {
+            width: 250px;
+            height: 250px;
+            background: #ff00ff;
+            bottom: 10%;
+            left: 50%;
+            animation-delay: 4s;
+        }
+
+        @keyframes blob-animation {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Main container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px #00ff88;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+
+        .github-link {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 25px;
+            background: rgba(0, 255, 136, 0.2);
+            border: 2px solid #00ff88;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #00ff88;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .github-link:hover {
+            background: rgba(0, 255, 136, 0.4);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+        }
+
+        /* Main content grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: rgba(48, 43, 99, 0.3);
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            animation: fadeInUp 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+            border-color: #00d4ff;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #00d4ff;
+        }
+
+        .card p {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #88ff00;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #00ff88, #00d4ff);
+            color: #0f0c29;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-family: 'Fira Code', monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Code editor section */
+        .editor-section {
+            background: rgba(48, 43, 99, 0.3);
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .editor-section h2 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            background: #0f0c29;
+            color: #00ff88;
+            border: 2px solid #00ff88;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        #output {
+            background: #0f0c29;
+            color: #00ff88;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            border: 2px solid #00d4ff;
+            min-height: 100px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Status indicator */
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #00ff88;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 20px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+        <div class="blob blob3"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>✨ VIBE CODE ✨</h1>
+            <p class="subtitle">Connect • Create • Code • Vibe</p>
+            <div class="status">
+                <div class="status-dot"></div>
+                <span>Online & Ready</span>
+            </div>
+            <a href="https://github.com/brentabbinkin-cloud/bookish-computing-machine" class="github-link" target="_blank">
+                🔗 View on GitHub
+            </a>
+        </header>
+
+        <div class="grid">
+            <div class="card">
+                <h3>🚀 Get Started</h3>
+                <p>Deploy your ideas instantly. No limits, no hassle, pure vibes.</p>
+                <button class="btn" onclick="showMessage('Welcome to Vibe Code!')">Launch</button>
+            </div>
+
+            <div class="card">
+                <h3>🌐 Connect</h3>
+                <p>Share your projects anywhere. Works on WiFi, cellular, or anywhere online.</p>
+                <button class="btn" onclick="showMessage('Connected to Vibe Network')">Connect</button>
+            </div>
+
+            <div class="card">
+                <h3>💻 Code</h3>
+                <p>Write, test, and deploy code right here. Real-time preview included.</p>
+                <button class="btn" onclick="scrollToEditor()">Code Now</button>
+            </div>
+
+            <div class="card">
+                <h3>🎨 Customize</h3>
+                <p>Make it yours. Change colors, themes, and layouts on the fly.</p>
+                <button class="btn" onclick="toggleTheme()">Customize</button>
+            </div>
+
+            <div class="card">
+                <h3>⚡ Fast</h3>
+                <p>Lightning-quick performance. Load anywhere, run everywhere.</p>
+                <button class="btn" onclick="showMessage('Speed: 99.9% ⚡')">Benchmark</button>
+            </div>
+
+            <div class="card">
+                <h3>🔒 Secure</h3>
+                <p>Your code, your control. Privacy first, always.</p>
+                <button class="btn" onclick="showMessage('🔒 Secure Connection Established')">Verify</button>
+            </div>
+        </div>
+
+        <div class="editor-section">
+            <h2>📝 Code Playground</h2>
+            <p style="margin-bottom: 15px; color: #00d4ff;">Write some JavaScript and watch it run!</p>
+            <textarea id="codeInput" placeholder="// Write your JavaScript here!&#10;console.log('Welcome to Vibe Code!');&#10;&#10;// Try this:&#10;const message = 'Code vibes are real! ✨';&#10;console.log(message);"></textarea>
+            <button class="btn" onclick="runCode()" style="margin-top: 20px; width: 100%; padding: 15px;">▶️ Run Code</button>
+            <div id="output">Output will appear here...</div>
+        </div>
+    </div>
+
+    <script>
+        function showMessage(msg) {
+            const output = document.getElementById('output');
+            output.textContent = `> ${msg}\n✨ Vibe activated!`;
+        }
+
+        function scrollToEditor() {
+            document.querySelector('.editor-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleTheme() {
+            document.body.style.filter = document.body.style.filter === 'invert(1)' ? 'invert(0)' : 'invert(1)';
+            showMessage('🎨 Theme toggled!');
+        }
+
+        function runCode() {
+            const code = document.getElementById('codeInput').value;
+            const output = document.getElementById('output');
+            
+            try {
+                // Capture console output
+                let logs = [];
+                const originalLog = console.log;
+                console.log = function(...args) {
+                    logs.push(args.join(' '));
+                    originalLog(...args);
+                };
+
+                // Execute user code
+                eval(code);
+
+                // Restore console
+                console.log = originalLog;
+
+                // Display output
+                output.textContent = logs.length > 0 ? logs.join('\n') : '✨ Code executed successfully!';
+            } catch (error) {
+                output.textContent = `❌ Error: ${error.message}`;
+            }
+        }
+
+        // Welcome message
+        window.addEventListener('load', () => {
+            showMessage('🌐 Connected! Welcome to Vibe Code');
+        });
+    </script>
+</body>
+</html>
