@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Connection Sequence Tracker</title>
+    <link rel="stylesheet" href="device-tracker.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🔗 Device Connection Sequence Tracker</h1>
+            <p class="subtitle">Monitor WiFi & Bluetooth device connections in chronological order</p>
+        </header>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="control-group">
+                <button id="startMonitor" class="btn btn-primary">
+                    <span class="icon">▶️</span> Start Monitoring
+                </button>
+                <button id="stopMonitor" class="btn btn-danger" disabled>
+                    <span class="icon">⏹️</span> Stop Monitoring
+                </button>
+            </div>
+            <div class="control-group">
+                <button id="clearLog" class="btn btn-secondary">
+                    <span class="icon">🗑️</span> Clear Log
+                </button>
+                <button id="exportLog" class="btn btn-secondary">
+                    <span class="icon">💾</span> Export Log
+                </button>
+            </div>
+            <div class="status-display">
+                <span id="monitorStatus" class="status-badge status-stopped">Monitoring: OFF</span>
+                <span id="deviceCount" class="status-badge status-info">Devices: 0</span>
+            </div>
+        </div>
+
+        <!-- Filter Panel -->
+        <div class="filter-panel">
+            <div class="filter-group">
+                <label for="connectionTypeFilter">Connection Type:</label>
+                <select id="connectionTypeFilter">
+                    <option value="">All Types</option>
+                    <option value="WiFi">WiFi</option>
+                    <option value="Bluetooth">Bluetooth</option>
+                    <option value="USB">USB</option>
+                    <option value="NFC">NFC</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="statusFilter">Status:</label>
+                <select id="statusFilter">
+                    <option value="">All Status</option>
+                    <option value="Connected">Connected</option>
+                    <option value="Disconnected">Disconnected</option>
+                    <option value="Connecting">Connecting</option>
+                    <option value="Error">Error</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="searchDevice">Search Device:</label>
+                <input type="text" id="searchDevice" placeholder="Search by name or address...">
+            </div>
+        </div>
+
+        <!-- Statistics Panel -->
+        <div class="stats-panel">
+            <div class="stat-card">
+                <div class="stat-label">Total Events</div>
+                <div class="stat-value" id="totalEvents">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Active Devices</div>
+                <div class="stat-value" id="activeDevices">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Connection Failures</div>
+                <div class="stat-value" id="failureCount">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Monitoring Duration</div>
+                <div class="stat-value" id="duration">00:00:00</div>
+            </div>
+        </div>
+
+        <!-- Timeline View -->
+        <div class="timeline-section">
+            <h2>Connection Timeline</h2>
+            <div class="timeline-controls">
+                <button id="autoScroll" class="btn btn-small" style="background: #06b6d4;">
+                    <span class="icon">📍</span> Auto-Scroll: ON
+                </button>
+            </div>
+            <div class="timeline-container" id="timeline">
+                <div class="timeline-placeholder">
+                    <p>🔍 No connection events yet. Start monitoring to see device connections.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Event Log -->
+        <div class="log-section">
+            <h2>Detailed Event Log</h2>
+            <div class="log-controls">
+                <label>
+                    <input type="checkbox" id="showDetails" checked> Show Details
+                </label>
+            </div>
+            <table class="event-table" id="eventTable">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Sequence #</th>
+                        <th>Device Name</th>
+                        <th>Address</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Duration</th>
+                        <th>Signal/Battery</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="logBody">
+                    <tr class="placeholder-row">
+                        <td colspan="9" style="text-align: center; padding: 20px;">Start monitoring to record device connections</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Device Map -->
+        <div class="device-map-section">
+            <h2>Active Devices Map</h2>
+            <div class="device-grid" id="deviceGrid">
+                <div class="device-placeholder">
+                    <p>📱 No connected devices yet</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for detailed event info -->
+    <div id="detailModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Connection Event Details</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="device-tracker.js"></script>
+</body>
+</html>
